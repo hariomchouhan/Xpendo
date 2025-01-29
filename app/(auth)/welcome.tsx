@@ -6,16 +6,18 @@ import { colors, spacingX, spacingY } from "@/constants/theme";
 import { verticalScale } from "@/utils/styling";
 import Button from "@/components/Button";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 
 type Props = {};
 
 const Welcome = (props: Props) => {
+    const router = useRouter()
   return (
     <ScreenWrapper>
       <View style={styles.container}>
         {/* login button and image */}
         <View>
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity onPress={() => router.push('/(auth)/login')} style={styles.loginButton}>
             <Typo fontWeight={"500"}>Sign in</Typo>
           </TouchableOpacity>
 
@@ -62,7 +64,7 @@ const Welcome = (props: Props) => {
               .damping(12)}
             style={styles.buttonContainer}
           >
-            <Button>
+            <Button onPress={() => router.push('/(auth)/register')}>
               <Typo size={22} color={colors.neutral900} fontWeight={"600"}>
                 Get Started
               </Typo>
