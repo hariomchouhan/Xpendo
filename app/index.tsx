@@ -1,16 +1,39 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { colors } from "@/constants/theme";
+import { useRouter } from "expo-router";
 
-type Props = {}
+type Props = {};
 
 const index = (props: Props) => {
+    const router = useRouter();
+    useEffect(() => {
+        setTimeout(() => {
+            router.push('/(auth)/welcome')
+        }, 2000 );
+    }, [])
   return (
-    <View>
-      <Text>Hariom Chouhan</Text>
+    <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        resizeMode="contain"
+        source={require("@/assets/images/splashImage.png")}
+      />
     </View>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.neutral900,
+  },
+  logo: {
+    height: '20%',
+    aspectRatio: 1,
+  }
+});
 
-export default index
+export default index;

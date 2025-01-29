@@ -1,16 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { Stack } from "expo-router";
 
-type Props = {}
+type Props = {};
 
 const _layout = (props: Props) => {
-  return (
-    <View>
-      <Text>_layout</Text>
-    </View>
-  )
-}
+  return <Stack screenOptions={{ headerShown: false }}></Stack>;
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
 
-export default _layout
+export default _layout;
