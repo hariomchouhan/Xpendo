@@ -3,14 +3,14 @@ import React from 'react'
 
 type Props = {}
 
-const _layout = (props: Props) => {
+const index = (props: Props) => {
   return (
     <View>
-      <Text>_layout</Text>
+      <Text>Hariom Chouhan</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({})
 
-export default _layout
+export default index
