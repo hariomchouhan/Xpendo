@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import ScreenWrapper from '@/components/ScreenWrapper'
 
 type Props = {}
 
 const Statistics = (props: Props) => {
   return (
-    <View>
+    <ScreenWrapper>
       <Text>Statistics</Text>
-    </View>
+    </ScreenWrapper>
   )
 }
 
