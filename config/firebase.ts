@@ -10,13 +10,13 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCc1uT1n3ncahYuhUo9MkrEHEOHNt00fWg",
-  authDomain: "expense-tracker-6ab0a.firebaseapp.com",
-  projectId: "expense-tracker-6ab0a",
-  storageBucket: "expense-tracker-6ab0a.firebasestorage.app",
-  messagingSenderId: "526669105377",
-  appId: "1:526669105377:web:ee57a926af145fe8034fa0",
-  measurementId: "G-2NL3MRGFSW",
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
