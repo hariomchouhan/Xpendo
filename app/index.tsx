@@ -6,12 +6,12 @@ import { useRouter } from "expo-router";
 type Props = {};
 
 const index = (props: Props) => {
-    const router = useRouter();
-    useEffect(() => {
-        setTimeout(() => {
-            router.push('/(auth)/welcome')
-        }, 2000 );
-    }, [])
+    // const router = useRouter();
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         router.push('/(auth)/welcome')
+    //     }, 2000 );
+    // }, [])
   return (
     <View style={styles.container}>
       <Image
