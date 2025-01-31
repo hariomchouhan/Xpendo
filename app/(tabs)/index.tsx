@@ -14,16 +14,9 @@ const Home = (props: Props) => {
   const {user} = useAuth()
 
   console.log("user: ", user);
-  
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
   return (
     <ScreenWrapper>
       <Typo>Home</Typo>
-      <Button onPress={handleLogout}>
-        <Typo color={colors.black}>Logout</Typo>
-      </Button>
     </ScreenWrapper>
   );
 };
