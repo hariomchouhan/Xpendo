@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 import { AuthProvider } from "@/contexts/authContext";
@@ -13,7 +13,13 @@ const StackLayout = (props: Props) => {
         options={{
           presentation: "modal",
         }}
-      ></Stack.Screen>
+      />
+      <Stack.Screen
+        name="(modals)/walletModal"
+        options={{
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };
