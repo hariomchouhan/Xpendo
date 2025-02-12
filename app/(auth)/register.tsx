@@ -71,6 +71,8 @@ const Register = (props: Props) => {
           />
           <Input
             placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
             onChange={(event) => (emailRef.current = event.nativeEvent.text)}
             icon={
               <At

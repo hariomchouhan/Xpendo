@@ -56,6 +56,7 @@ const Login = (props: Props) => {
           </Typo>
           <Input
             placeholder="Enter your email"
+            autoCapitalize="none"
             onChange={(event) => (emailRef.current = event.nativeEvent.text)}
             icon={
               <At
