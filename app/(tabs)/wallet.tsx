@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
@@ -6,15 +12,36 @@ import { verticalScale } from "@/utils/styling";
 import Typo from "@/components/Typo";
 import { PlusCircle } from "phosphor-react-native";
 import { useRouter } from "expo-router";
+import useFetchData from "@/hooks/useFetchData";
+import { WalletType } from "@/types";
+import { orderBy, where } from "firebase/firestore";
+import { useAuth } from "@/contexts/authContext";
+import Loading from "@/components/Loading";
+import WalletListItem from "@/components/WalletListItem";
+import { currency, currentCurrency } from "@/constants/currency";
 
 type Props = {};
 
 const Wallet = (props: Props) => {
   const router = useRouter();
+  const { user } = useAuth();
 
-  const getTotalBalance = () => {
-    return 2345.08;
-  };
+  const {
+    data: wallets,
+    loading,
+    error,
+  } = useFetchData<WalletType>("wallets", [
+    where("uid", "==", user?.uid),
+    orderBy("created", "desc"),
+  ]);
+
+  // console.log("wallets: ", wallets.length);
+
+  const getTotalBalance = () => wallets &&
+    wallets.reduce((total, item) => {
+      total = total + (item.amount || 0);
+      return total;
+    }, 0);
   return (
     <ScreenWrapper style={{ backgroundColor: colors.black }}>
       <View style={styles.container}>
@@ -22,7 +49,7 @@ const Wallet = (props: Props) => {
         <View style={styles.balanceView}>
           <View style={{ alignItems: "center" }}>
             <Typo size={45} fontWeight={"500"}>
-              ${getTotalBalance()?.toFixed(2)}
+              {currentCurrency}{getTotalBalance()?.toFixed(2)}
             </Typo>
             <Typo size={16} color={colors.neutral300}>
               Total Balance
@@ -37,7 +64,9 @@ const Wallet = (props: Props) => {
             <Typo size={20} fontWeight={"500"}>
               My Wallets
             </Typo>
-            <TouchableOpacity onPress={() => router.push("/(modals)/walletModal")}>
+            <TouchableOpacity
+              onPress={() => router.push("/(modals)/walletModal")}
+            >
               <PlusCircle
                 weight="fill"
                 color={colors.primary}
@@ -46,7 +75,16 @@ const Wallet = (props: Props) => {
             </TouchableOpacity>
           </View>
 
-          {/* todo: wallet list */}
+          {loading && <Loading />}
+          <FlatList
+            data={wallets}
+            renderItem={({ item, index }) => {
+              return (
+                <WalletListItem item={item} index={index} router={router} />
+              );
+            }}
+            contentContainerStyle={styles.lifeStyle}
+          />
         </View>
       </View>
     </ScreenWrapper>
