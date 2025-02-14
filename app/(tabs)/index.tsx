@@ -5,13 +5,17 @@ import { colors, spacingX, spacingY } from "@/constants/theme";
 import { useAuth } from "@/contexts/authContext";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { verticalScale } from "@/utils/styling";
-import { MagnifyingGlass } from "phosphor-react-native";
+import { MagnifyingGlass, Plus } from "phosphor-react-native";
 import HomeCard from "@/components/HomeCard";
+import TransactionList from "@/components/TransactionList";
+import Button from "@/components/Button";
+import { useRouter } from "expo-router";
 
 type Props = {};
 
 const Home = (props: Props) => {
   const { user } = useAuth();
+  const router = useRouter();
 
   return (
     <ScreenWrapper>
@@ -39,12 +43,23 @@ const Home = (props: Props) => {
         <ScrollView
           contentContainerStyle={styles.scrollViewStyle}
           showsVerticalScrollIndicator={false}
-          >
-            {/* card */}
-            <View>
-              <HomeCard />
-            </View>
-          </ScrollView>
+        >
+          {/* card */}
+          <View>
+            <HomeCard />
+          </View>
+
+          <TransactionList
+            data={[1, 2, 3, 4, 5, 6]}
+            loading={false}
+            emptyListMessage="No Transactions added yet!"
+            title="Recent Transactions"
+          />
+        </ScrollView>
+
+        <Button style={styles.floatingButton} onPress={() => router.push('/(modals)/transactionModal')}>
+          <Plus color={colors.black} weight="bold" size={verticalScale(24)} />
+        </Button>
       </View>
     </ScreenWrapper>
   );
