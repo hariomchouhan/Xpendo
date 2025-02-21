@@ -4,6 +4,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -48,7 +49,6 @@ const TransactionModal = (props: Props) => {
 
   // console.log("transaction: ", transaction);
   // console.log("showDatePicker: ", showDatePicker);
-  
 
   const {
     data: wallets,
@@ -65,7 +65,7 @@ const TransactionModal = (props: Props) => {
   const onDateChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || transaction.date;
     setTransaction({ ...transaction, date: currentDate });
-    setShowDatePicker(false);
+    setShowDatePicker(Platform.OS === "ios" ? true : false);
   };
   // console.log("oldTransaction: ", oldTransaction);
 
@@ -243,11 +243,11 @@ const TransactionModal = (props: Props) => {
                   value={transaction.date as Date}
                   textColor={colors.white}
                   mode="date"
-                  display="default"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
                   onChange={onDateChange}
                 />
 
-                {/* {Platform.OS === "ios" && (
+                {Platform.OS === "ios" && (
                   <TouchableOpacity
                     style={styles.datePickerButton}
                     onPress={() => setShowDatePicker(false)}
@@ -256,7 +256,7 @@ const TransactionModal = (props: Props) => {
                       Ok
                     </Typo>
                   </TouchableOpacity>
-                )} */}
+                )}
               </View>
             )}
           </View>
@@ -322,44 +322,44 @@ const styles = StyleSheet.create({
     gap: spacingY._10,
   },
   iosDropDown: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: verticalScale(54),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: verticalScale(14),
     borderWidth: 1,
     color: colors.white,
     borderColor: colors.neutral300,
     borderRadius: radius._17,
-    borderCurve: 'continuous',
+    borderCurve: "continuous",
     paddingHorizontal: spacingX._15,
   },
   androidDropDown: {
     // flexDirection: 'row',
     height: verticalScale(54),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: verticalScale(14),
     borderWidth: 1,
     color: colors.white,
     borderColor: colors.neutral300,
     borderRadius: radius._17,
-    borderCurve: 'continuous',
+    borderCurve: "continuous",
     // paddingHorizontal: spacingX._15,
   },
   flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacingX._5,
   },
   dateInput: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: verticalScale(54),
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
     borderColor: colors.neutral300,
     borderRadius: radius._17,
-    borderCurve: 'continuous',
+    borderCurve: "continuous",
     paddingHorizontal: spacingX._15,
   },
   iosDatePicker: {
