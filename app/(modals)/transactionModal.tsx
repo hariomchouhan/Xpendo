@@ -4,7 +4,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ import useFetchData from "@/hooks/useFetchData";
 import { orderBy, where } from "firebase/firestore";
 import { currentCurrency } from "@/constants/currency";
 import DateTimePicker from "@react-native-community/datetimepicker";
-// import DatePicker from "react-native-date-picker";
 
 type Props = {};
 
@@ -248,18 +246,6 @@ const TransactionModal = (props: Props) => {
                   display="default"
                   onChange={onDateChange}
                 />
-
-                {/* <DatePicker
-                  modal
-                  open={showDatePicker}
-                  date={transaction.date as Date}
-                  mode="date"
-                  onConfirm={(selectedDate) => {
-                    setTransaction({ ...transaction, date: selectedDate });
-                    setShowDatePicker(false);
-                  }}
-                  onCancel={() => setShowDatePicker(false)}
-                /> */}
 
                 {/* {Platform.OS === "ios" && (
                   <TouchableOpacity
