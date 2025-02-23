@@ -29,6 +29,7 @@ import useFetchData from "@/hooks/useFetchData";
 import { orderBy, where } from "firebase/firestore";
 import { currentCurrency } from "@/constants/currency";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { createOrUpdateTransaction } from "@/services/transactionService";
 
 type Props = {};
 
@@ -81,26 +82,34 @@ const TransactionModal = (props: Props) => {
   const onSubmit = async () => {
     const { type, amount, description, category, date, walletId, image } =
       transaction;
-      if (!walletId || !date || !amount || (type === 'expense' && !category)) {
-        Alert.alert('Transaction', "Please fill all the fields")
-        return;
-      }
+    if (!walletId || !date || !amount || (type === "expense" && !category)) {
+      Alert.alert("Transaction", "Please fill all the fields");
+      return;
+    }
 
-      console.log('good to go');
-      let transactionData: TransactionType = {
-        type,
-        amount,
-        description,
-        category,
-        date,
-        walletId,
-        image,
-        uid: user?.uid,
-      }
+    let transactionData: TransactionType = {
+      type,
+      amount,
+      description,
+      category,
+      date,
+      walletId,
+      image,
+      uid: user?.uid,
+    };
 
-      console.log("Transaction data: ", transactionData);
-      
-      
+    // console.log("Transaction data: ", transactionData);
+
+    // todo: include transaction id for updating
+    setLoading(true);
+    const res = await createOrUpdateTransaction(transactionData);
+
+    setLoading(false);
+    if (res.success) {
+      router.back()
+    } else {
+      Alert.alert("Transaction", res.msg)
+    }
   };
 
   const onDelete = async () => {
