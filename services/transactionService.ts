@@ -1,6 +1,13 @@
 import { firestore } from "@/config/firebase";
 import { ResponseType, TransactionType, WalletType } from "@/types";
-import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  runTransaction,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { uploadFileToCloudinary } from "./ImageService";
 
 export const createOrUpdateTransaction = async (
@@ -99,3 +106,60 @@ const updateWalletForNewTransaction = async (
     return { success: false, msg: error.message };
   }
 };
+
+export const deleteTransaction = async (
+  transactionId: string,
+  walletId: string
+) => {
+  try {
+    const transactionRef = doc(firestore, "transactions", transactionId);
+    const walletRef = doc(firestore, "wallets", walletId);
+
+    await runTransaction(firestore, async (transaction) => {
+      // Fetch transaction details
+      const transactionSnap = await transaction.get(transactionRef);
+      if (!transactionSnap.exists()) throw new Error("Transaction not found!");
+
+      const { amount: transactionAmount, type } = transactionSnap.data();
+
+      // Fetch wallet details
+      const walletSnap = await transaction.get(walletRef);
+      if (!walletSnap.exists()) throw new Error("Wallet not found!");
+
+      const { amount, totalIncome, totalExpenses } = walletSnap.data();
+
+      // Ensure values are numbers
+      let updatedAmount = Number(amount) || 0;
+      let updatedTotalIncome = Number(totalIncome) || 0;
+      let updatedTotalExpenses = Number(totalExpenses) || 0;
+
+      // Update amount based on transaction type
+      if (type === "income") {
+        updatedAmount -= transactionAmount;
+        updatedTotalIncome -= transactionAmount;
+      } else if (type === "expense") {
+        updatedAmount += transactionAmount;
+        updatedTotalExpenses -= transactionAmount;
+      }
+
+      // Prevent negative values
+      if (updatedAmount < 0) throw new Error("Insufficient funds!");
+
+      // Update wallet and delete transaction
+      transaction.update(walletRef, {
+        amount: updatedAmount,
+        totalIncome: updatedTotalIncome,
+        totalExpenses: updatedTotalExpenses,
+      });
+      transaction.delete(transactionRef);
+    });
+
+    console.log("✅ Transaction deleted & wallet updated!");
+    return { success: true, msg: "Transaction deleted & wallet updated successfully 😊" };
+  } catch (error: any) {
+    console.error("❌ Error:", error.message);
+    return { success: false, msg: `Error: ${error.message} 😔` };
+  }
+};
+
+
