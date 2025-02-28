@@ -9,7 +9,7 @@ import { BarChart } from "react-native-gifted-charts";
 import { currentCurrency } from "@/constants/currency";
 import Loading from "@/components/Loading";
 import { useAuth } from "@/contexts/authContext";
-import { fetchWeeklyStats } from "@/services/transactionService";
+import { fetchMonthlyStats, fetchWeeklyStats } from "@/services/transactionService";
 import TransactionList from "@/components/TransactionList";
 
 type Props = {};
@@ -39,13 +39,21 @@ const Statistics = (props: Props) => {
     setChartLoading(false);
     if (res.success) {
       setChartData(res?.data?.stats);
-      setTransactions(res?.data?.transactions)
+      setTransactions(res?.data?.transactions);
     } else {
       Alert.alert("Error", res.msg);
     }
   };
   const getMonthlyStats = async () => {
-    // get monthly stats
+    setChartLoading(true)
+    let res = await fetchMonthlyStats(user?.uid as string)
+    setChartLoading(false)
+    if (res.success) {
+      setChartData(res?.data?.stats);
+      setTransactions(res?.data?.transactions);
+    } else {
+      Alert.alert("Error", res.msg);
+    }
   };
   const getYearlyStats = async () => {
     // get yearly stats
@@ -119,7 +127,11 @@ const Statistics = (props: Props) => {
 
           {/* transactions */}
           <View>
-            <TransactionList title="Transactions" emptyListMessage="No Transations Found" data={transactions} />
+            <TransactionList
+              title="Transactions"
+              emptyListMessage="No Transations Found"
+              data={transactions}
+            />
           </View>
         </ScrollView>
       </View>
