@@ -10,14 +10,16 @@ import { currentCurrency } from "@/constants/currency";
 import Loading from "@/components/Loading";
 import { useAuth } from "@/contexts/authContext";
 import { fetchWeeklyStats } from "@/services/transactionService";
+import TransactionList from "@/components/TransactionList";
 
 type Props = {};
 
 const Statistics = (props: Props) => {
   const { user } = useAuth();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [chartData, setChartData] = useState([]);
   const [charLoading, setChartLoading] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     if (activeIndex == 0) {
@@ -37,6 +39,7 @@ const Statistics = (props: Props) => {
     setChartLoading(false);
     if (res.success) {
       setChartData(res?.data?.stats);
+      setTransactions(res?.data?.transactions)
     } else {
       Alert.alert("Error", res.msg);
     }
@@ -112,6 +115,11 @@ const Statistics = (props: Props) => {
                 <Loading color={colors.white} />
               </View>
             )}
+          </View>
+
+          {/* transactions */}
+          <View>
+            <TransactionList title="Transactions" emptyListMessage="No Transations Found" data={transactions} />
           </View>
         </ScrollView>
       </View>
