@@ -38,6 +38,12 @@ const StackLayout = (props: Props) => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="(modals)/aboutUsModal"
+        options={{
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };

@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
@@ -9,7 +9,7 @@ import Typo from "@/components/Typo";
 import { Image } from "expo-image";
 import { getProfileImage } from "@/services/ImageService";
 import { accountOptionType } from "@/types";
-import { CaretRight, GearSix, Lock, Power, User } from "phosphor-react-native";
+import { CaretRight, Info, Lock, Power, User } from "phosphor-react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { signOut } from "firebase/auth";
 import { auth } from "@/config/firebase";
@@ -29,10 +29,10 @@ const Profile = (props: Props) => {
       bgColor: "#6366f1",
     },
     {
-      title: "Settings",
-      icon: <GearSix size={26} color={colors.white} weight="fill" />,
-      // routeName: "/(modals)/profileModal",
-      bgColor: "#059669",
+      title: "About App & Us",
+      icon: <Info size={26} color={colors.white} weight="fill" />,
+      routeName: "/(modals)/aboutUsModal",
+      bgColor: "#318CE7",
     },
     {
       title: "Privacy Policy",
