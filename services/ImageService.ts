@@ -2,7 +2,7 @@ import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from "@/constants";
 import { ResponseType } from "@/types";
 import axios from "axios";
 
-const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/${process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 export const uploadFileToCloudinary = async (
   file: { uri: string } | string,
@@ -23,7 +23,7 @@ export const uploadFileToCloudinary = async (
         name: file?.uri?.split("/").pop() || "file.jpg",
       } as any);
 
-      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      formData.append("upload_preset", process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
       formData.append("folder", folderName);
 
       const response = await axios.post(CLOUDINARY_API_URL, formData, {

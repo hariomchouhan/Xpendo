@@ -18,8 +18,8 @@ import { Envelope, PhoneCall } from "phosphor-react-native";
 type Props = {};
 
 const AboutUsModal = (props: Props) => {
-  const phoneNumber = "+91 9770994821";
-  const email = "hariomchouhan430@gmail.com";
+  const phoneNumber = process.env.EXPO_PUBLIC_PHONE_NUMBER;
+  const email = process.env.EXPO_PUBLIC_EMAIL;
 
   const handleCallPress = () => {
     Linking.openURL(`tel:${phoneNumber}`);

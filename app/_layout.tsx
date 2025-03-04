@@ -44,6 +44,12 @@ const StackLayout = (props: Props) => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="(modals)/privacyPolicyModal"
+        options={{
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };
