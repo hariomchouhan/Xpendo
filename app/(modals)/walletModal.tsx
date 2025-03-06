@@ -42,8 +42,9 @@ const WalletModal = (props: Props) => {
 
   const onSubmit = async () => {
     let { name, image } = wallet;
-    if (!name.trim() || !image) {
-      Alert.alert("Wallet", "Please fill all the fields");
+    if (!name.trim()) {
+      Alert.alert("Wallet", "Please fill Wallet Name");
+      return;
     }
 
     const data: WalletType = {
