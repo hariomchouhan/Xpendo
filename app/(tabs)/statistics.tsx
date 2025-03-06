@@ -15,6 +15,7 @@ import {
   fetchYearlyStats,
 } from "@/services/transactionService";
 import TransactionList from "@/components/TransactionList";
+import { useFocusEffect } from "expo-router";
 
 type Props = {};
 
@@ -25,18 +26,29 @@ const Statistics = (props: Props) => {
   const [chartData, setChartData] = useState([]);
   const [transactions, setTransactions] = useState([]);
 
-  useEffect(() => {
-    if (activeIndex == 0) {
-      getWeeklyStats();
-    }
-    if (activeIndex == 1) {
-      getMonthlyStats();
-    }
-    if (activeIndex == 2) {
-      getYearlyStats();
-    }
-  }, [activeIndex]);
+  // useEffect(() => {
+  //   if (activeIndex == 0) {
+  //     getWeeklyStats();
+  //   }
+  //   if (activeIndex == 1) {
+  //     getMonthlyStats();
+  //   }
+  //   if (activeIndex == 2) {
+  //     getYearlyStats();
+  //   }
+  // }, [activeIndex]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (activeIndex === 0) {
+        getWeeklyStats();
+      } else if (activeIndex === 1) {
+        getMonthlyStats();
+      } else if (activeIndex === 2) {
+        getYearlyStats();
+      }
+    }, [activeIndex])
+  );
   const getWeeklyStats = async () => {
     setChartLoading(true);
     let res = await fetchWeeklyStats(user?.uid as string);
@@ -113,7 +125,7 @@ const Statistics = (props: Props) => {
                 xAxisThickness={0}
                 yAxisThickness={0}
                 yAxisLabelWidth={
-                  [1, 2].includes(activeIndex) ? scale(38) : scale(35)
+                  [1, 2].includes(activeIndex) ? scale(88) : scale(65)
                 }
                 yAxisTextStyle={{ color: colors.neutral350 }}
                 xAxisLabelTextStyle={{
