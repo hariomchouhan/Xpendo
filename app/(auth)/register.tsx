@@ -83,7 +83,7 @@ const Register = (props: Props) => {
             }
           />
           <Input
-            placeholder="Enter your password"
+            placeholder="Create your password"
             secureTextEntry
             onChange={(event) => (passwordRef.current = event.nativeEvent.text)}
             icon={
