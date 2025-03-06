@@ -15,18 +15,6 @@ import Typo from "@/components/Typo";
 type Props = {};
 
 const PrivacyPolicyModal = (props: Props) => {
-  const email = process.env.EXPO_PUBLIC_EMAIL;
-
-  const handleEmailPress = async () => {
-    const url = `mailto:${email}`;
-
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      Linking.openURL(url);
-    } else {
-      Alert.alert("Error", "Email app is not available.");
-    }
-  };
   return (
     <ModalWrapper>
       <ScrollView style={styles.container}>
@@ -72,17 +60,14 @@ const PrivacyPolicyModal = (props: Props) => {
           If you have any questions about this Privacy Policy, please contact us
           at
         </Typo>
-        <TouchableOpacity onPress={handleEmailPress}>
-          <Typo
-            style={{
-              fontSize: 18,
-              color: colors.primary,
-              textDecorationLine: "underline",
-            }}
-          >
-            {email}
-          </Typo>
-        </TouchableOpacity>
+        <Typo
+          style={{
+            fontSize: 18,
+            color: colors.primary,
+          }}
+        >
+          {process.env.EXPO_PUBLIC_EMAIL}
+        </Typo>
       </ScrollView>
     </ModalWrapper>
   );

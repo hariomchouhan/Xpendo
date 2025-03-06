@@ -19,22 +19,11 @@ type Props = {};
 
 const AboutUsModal = (props: Props) => {
   const phoneNumber = process.env.EXPO_PUBLIC_PHONE_NUMBER;
-  const email = process.env.EXPO_PUBLIC_EMAIL;
 
   const handleCallPress = () => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
 
-  const handleEmailPress = async () => {
-    const url = `mailto:${email}`;
-
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      Linking.openURL(url);
-    } else {
-      Alert.alert("Error", "Email app is not available.");
-    }
-  };
   return (
     <ModalWrapper>
       <ScrollView style={styles.container}>
@@ -101,17 +90,14 @@ const AboutUsModal = (props: Props) => {
               {" "}
               Email {" - "}
             </Typo>
-            <TouchableOpacity onPress={handleEmailPress}>
-              <Typo
-                style={{
-                  fontSize: 18,
-                  color: colors.primary,
-                  textDecorationLine: "underline",
-                }}
-              >
-                {email}
-              </Typo>
-            </TouchableOpacity>
+            <Typo
+              style={{
+                fontSize: 18,
+                color: colors.primary,
+              }}
+            >
+              {process.env.EXPO_PUBLIC_EMAIL}
+            </Typo>
           </View>
         </View>
       </ScrollView>
