@@ -12,7 +12,7 @@ import Button from "@/components/Button";
 import { useRouter } from "expo-router";
 import { limit, orderBy, where } from "firebase/firestore";
 import useFetchData from "@/hooks/useFetchData";
-import { TransactionType } from "@/types";
+import { TransactionType, WalletType } from "@/types";
 
 type Props = {};
 
@@ -31,6 +31,13 @@ const Home = (props: Props) => {
     loading: transactionLoading,
     error,
   } = useFetchData<TransactionType>("transactions", constraints);
+
+  const { data: wallets } = useFetchData<WalletType>("wallets", [
+    where("uid", "==", user?.uid),
+    orderBy("created", "desc"),
+  ]);
+
+  console.log("wallets: ", wallets);
 
   return (
     <ScreenWrapper>
@@ -70,17 +77,31 @@ const Home = (props: Props) => {
           <TransactionList
             data={recentTransactions}
             loading={transactionLoading}
-            emptyListMessage="No Transactions added yet!"
+            emptyListMessage={
+              wallets.length === 0
+                ? "Firstly Create wallet!"
+                : "No Transactions added yet!"
+            }
             title="Recent Transactions"
           />
+          {wallets.length === 0 && (
+            <Button
+              style={{ width: verticalScale(180), alignSelf: "center" }}
+              onPress={() => router.push("/(tabs)/wallet")}
+            >
+              <Typo fontWeight={"500"}>Create Wallet</Typo>
+            </Button>
+          )}
         </ScrollView>
 
-        <Button
-          style={styles.floatingButton}
-          onPress={() => router.push("/(modals)/transactionModal")}
-        >
-          <Plus color={colors.black} weight="bold" size={verticalScale(24)} />
-        </Button>
+        {wallets.length !== 0 && (
+          <Button
+            style={styles.floatingButton}
+            onPress={() => router.push("/(modals)/transactionModal")}
+          >
+            <Plus color={colors.black} weight="bold" size={verticalScale(24)} />
+          </Button>
+        )}
       </View>
     </ScreenWrapper>
   );
