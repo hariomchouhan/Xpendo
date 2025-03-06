@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
 import { scale, verticalScale } from "@/utils/styling";
 import ModalWrapper from "@/components/ModalWrapper";
@@ -19,17 +19,17 @@ import { TransactionType, WalletType } from "@/types";
 import Button from "@/components/Button";
 import { useAuth } from "@/contexts/authContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import * as ImagePicker from "expo-image-picker";
 import ImageUpload from "@/components/ImageUpload";
-import { createOrUpdateWallet, deleteWallet } from "@/services/walletService";
+import { deleteWallet } from "@/services/walletService";
 import { Trash } from "phosphor-react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { expenseCategories, transactionTypes } from "@/constants/data";
+import { expenseCategories } from "@/constants/data";
 import useFetchData from "@/hooks/useFetchData";
 import { orderBy, where } from "firebase/firestore";
 import { currentCurrency } from "@/constants/currency";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { createOrUpdateTransaction } from "@/services/transactionService";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 
 type Props = {};
 
@@ -106,9 +106,9 @@ const TransactionModal = (props: Props) => {
 
     setLoading(false);
     if (res.success) {
-      router.back()
+      router.back();
     } else {
-      Alert.alert("Transaction", res.msg)
+      Alert.alert("Transaction", res.msg);
     }
   };
 
@@ -160,24 +160,22 @@ const TransactionModal = (props: Props) => {
             <Typo color={colors.neutral200} size={16}>
               Type
             </Typo>
-            <Dropdown
-              style={styles.dropdownContainer}
-              activeColor={colors.neutral700}
-              //   placeholderStyle={styles.dropdownPlaceholder}
-              selectedTextStyle={styles.dropdownSelectedText}
-              iconStyle={styles.dropdownIcon}
-              data={transactionTypes}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              itemTextStyle={styles.dropdownItemText}
-              itemContainerStyle={styles.dropdownItemContainer}
-              containerStyle={styles.dropdownListContainer}
-              //   placeholder={!isFocus ? "Select item" : "..."}
-              value={transaction.type}
-              onChange={(item) => {
-                setTransaction({ ...transaction, type: item.value });
+            <SegmentedControl
+              values={["Expense", "Income"]}
+              selectedIndex={transaction.type === "expense" ? 0 : 1}
+              onChange={(event) => {
+                const index = event.nativeEvent.selectedSegmentIndex;
+                setTransaction({
+                  ...transaction,
+                  type: index === 0 ? "expense" : "income",
+                });
               }}
+              tintColor={colors.neutral200}
+              backgroundColor={colors.neutral700}
+              appearance="dark"
+              activeFontStyle={styles.segmentFontStyle}
+              style={styles.segmentStyle}
+              fontStyle={{ ...styles.segmentFontStyle, color: colors.white }}
             />
           </View>
 
@@ -392,6 +390,14 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     gap: spacingY._10,
+  },
+  segmentStyle: {
+    height: scale(37),
+  },
+  segmentFontStyle: {
+    fontSize: verticalScale(13),
+    fontWeight: "bold",
+    color: colors.black,
   },
   iosDropDown: {
     flexDirection: "row",
