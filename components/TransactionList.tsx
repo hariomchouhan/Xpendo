@@ -61,7 +61,7 @@ const TransactionList = ({
         <Typo
           size={15}
           color={colors.neutral400}
-          style={{ textAlign: "center", marginTop: spacingY._15 }}
+          style={{ textAlign: "center", marginTop: spacingY._15, lineHeight: verticalScale(35) }}
         >
           {emptyListMessage}
         </Typo>

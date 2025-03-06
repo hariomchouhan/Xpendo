@@ -80,7 +80,7 @@ const Home = (props: Props) => {
             emptyListMessage={
               wallets.length === 0
                 ? "Firstly Create wallet!"
-                : "No Transactions added yet!"
+                : "No Transactions added yet!\n Add money to your wallet"
             }
             title="Recent Transactions"
           />
