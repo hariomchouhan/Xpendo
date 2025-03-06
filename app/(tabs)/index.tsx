@@ -37,8 +37,6 @@ const Home = (props: Props) => {
     orderBy("created", "desc"),
   ]);
 
-  console.log("wallets: ", wallets);
-
   return (
     <ScreenWrapper>
       <View style={styles.container}>
