@@ -26,6 +26,14 @@ const Register = (props: Props) => {
       Alert.alert("Sign up", "Please fill the all fields");
       return;
     }
+    if (passwordRef.current.length < 6) {
+      Alert.alert("Warning", "Password length must be 6 letters");
+      return;
+    }
+    if (nameRef.current.length < 3) {
+      Alert.alert("Warning", "Name length must be 3 letters");
+      return;
+    }
     setIsLoading(true);
     const res = await registerUser(
       emailRef.current,
